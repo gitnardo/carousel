@@ -1,0 +1,37 @@
+<p>carousel works!</p>
+{{slides}}
+
+<div style="position: absolute; left:0; width:100%; top:0;" >
+123
+</div>
+<main  (mousemove)="mousemove($event)"  class="bb">
+  <div id="picker" class="picker" draggable="true">
+    <div class="cell">
+      <div class="cell-content"
+           draggable="true" >Card 1</div>
+    </div>
+    <div class="cell">
+      <div class="cell-content">
+           Card 2</div>
+    </div>
+    <div class="cell">
+      <div class="cell-content">Card 3</div>
+    </div>
+    <div class="cell">
+      <div class="cell-content">Card 4</div>
+    </div>
+    <div class="cell">
+      <div class="cell-content">Card 5</div>
+    </div>
+    <div class="cell">
+      <div class="cell-content">Card 6</div>
+    </div>
+    <div class="cell">
+      <div class="cell-content">Card 7</div>
+    </div>
+    <div class="cell"  draggable="true" style="border:1px solid #993300; left:1px; "
+         (drag)="changeBackground($event);">
+      <div class="cell-content">Card 8</div>
+    </div>
+  </div>
+</main>

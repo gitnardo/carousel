@@ -1,0 +1,60 @@
+
+<section class="carousel-wrapper" [ngStyle]="carouselWrapperStyle">
+  <ul class="carousel-inner" #carousel>
+    <li *ngFor="let item of items; let i = index" class="carousel-item"
+        cdkDropList
+        cdkDrag
+        cdkDragLockAxis="x"
+        cdkDragHandle
+
+        (cdkDragMoved)="dragAll($event)"
+        cdkDragBoundary=".carousel-wrapper">
+      <ng-container>
+        <div class="bb  "  [ngStyle]="{'left':tmp[i]+'px'}">
+          here 2222
+          <div style="cursor:pointer;" >
+            {{item.title}}
+          </div>
+        </div>
+
+      </ng-container>
+    </li>
+  </ul>
+  <div  style="position:absolute;left:600px; top:10px;"
+    cdkDropList
+    #doneList="cdkDropList"
+    [cdkDropListData]="done"
+    class="example-list bb"
+    (cdkDropListDropped)="drop($event)">
+    <div class="example-box" *ngFor="let item of done" cdkDrag>{{item}}</div>
+  </div>
+</section>
+
+<section class="carousel-wrapper" [ngStyle]="carouselWrapperStyle" cdkDrag cdkDragLockAxis="x"  cdkDropListOrientation="horizontal">
+  <ul class="carousel-inner" #carousel >
+    <li *ngFor="let item of items;" class="carousel-item" cdkDrag cdkDragLockAxis="x" draggable="true">
+      <div>
+        here 2222
+        <div style="cursor:pointer;" cdkDrag cdkDragLockAxis="x" cdkDragHandle cdkDragBoundary=".carousel-wrapper" >123456</div>
+      </div>
+    </li>
+  </ul>
+</section>
+<div *ngIf="showControls" style="margin-top: 1em">
+  <button (click)="next()" class="btn btn-default">Next</button>
+  <button (click)="prev()" class="btn btn-default">Prev</button>
+</div>
+<div>
+
+  <!--
+  <ul cdkDropList class="carousel-inner" style="position:absolute;left:300px; top:10px;" >
+    <li class="bb carousel-item">Drop spot</li>
+    <li class="bb">Drop spot</li>
+
+  </ul>
+  -->
+</div>
+<div *ngIf="showControls" style="margin-top: 1em">
+  <button (click)="next()" class="btn btn-default">Next</button>
+  <button (click)="prev()" class="btn btn-default">Prev</button>
+</div>

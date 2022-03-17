@@ -1,0 +1,191 @@
+.frame {
+  float: left;
+  width: 100px;
+  height: 20vh;
+}
+
+
+.example-container {
+  width: 400px;
+  max-width: 100%;
+  margin: 0 25px 25px 0;
+  display: inline-block;
+  vertical-align: top;
+}
+
+.example-list {
+  border: solid 1px #ccc;
+  min-height: 60px;
+  background: white;
+  border-radius: 4px;
+  overflow: hidden;
+  display: block;
+}
+
+.example-box {
+  padding: 20px 10px;
+  border-bottom: solid 1px #ccc;
+  color: rgba(0, 0, 0, 0.87);
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  box-sizing: border-box;
+  cursor: move;
+  background: white;
+  font-size: 14px;
+}
+
+.cdk-drag-preview {
+  box-sizing: border-box;
+  border-radius: 4px;
+  box-shadow: 0 5px 5px -3px rgba(0, 0, 0, 0.2),
+  0 8px 10px 1px rgba(0, 0, 0, 0.14),
+  0 3px 14px 2px rgba(0, 0, 0, 0.12);
+}
+
+.cdk-drag-placeholder {
+  opacity: 0;
+}
+
+.cdk-drag-animating {
+  transition: transform 250ms cubic-bezier(0, 0, 0.2, 1);
+}
+
+.example-box:last-child {
+  border: none;
+}
+
+.example-list.cdk-drop-list-dragging .example-box:not(.cdk-drag-placeholder) {
+  transition: transform 250ms cubic-bezier(0, 0, 0.2, 1);
+}
+
+
+.section-container {
+  padding: 20px 0;
+}
+
+.slider-wrap {
+  position: relative;
+  border: 1px solid #333;
+  overflow: auto;
+  height: 150px;
+}
+
+.slider-main {
+  position: absolute;
+  width: 100%;
+}
+
+.item {
+  display: inline-block;
+  width: 10%;
+  height: 150px;
+  background-color: #234567;
+  margin: 0 12px;
+
+  left: -300px;
+
+  transform-origin: center bottom;
+  transition: transform 250ms cubic-bezier(0, 0, 0.2, 1);
+}
+
+.item:hover {
+  left: 0;
+}
+
+.text {
+  position: relative;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  color: #fff;
+  border: 2px solid #345234;
+  box-shadow: 2px 2px 22px 12px #123546;
+}
+
+.button-area {
+  position: absolute;
+}
+
+.prev {
+  position: absolute;
+  left: 40px;
+  top: 100px;
+  transform: translate(-50%, -50%);
+}
+
+.next {
+  position: absolute;
+  right: 40px;
+  top: 100px;
+  transform: translate(-50%, -50%);
+}
+
+
+.item:hover {
+  cursor: grab;
+  cursor: -moz-grab;
+  cursor: -webkit-grab;
+}
+.item:active {
+  cursor: grabbing;
+  cursor: -moz-grabbing;
+  cursor: -webkit-grabbing;
+}
+
+
+.cdk-drag-animating {
+
+}
+
+.cursor {
+  cursor: pointer;
+
+}
+
+
+.moveblock {
+  position: absolute;
+  -webkit-animation: linear ;
+  -webkit-animation-name: run;
+  -webkit-animation-duration: 5s;
+}
+@-webkit-keyframes run {
+  0% {
+    left: 0;
+  }
+  100% {
+    left: 1px;
+    webkit-transform: scaleX(-1);
+  }
+}
+
+.enlarge {
+  transform: scale(100%);
+  animation-duration: 1s;
+  animation-name: reset;
+}
+
+@keyframes reset {
+
+  to {
+    transform: scale(100%);
+  }
+}
+
+.enlarge:hover {
+  animation-duration: 1s;
+  animation-name: slidein;
+  animation-iteration-count: 1;
+  animation-direction: normal;
+}
+
+@keyframes slidein {
+  to {
+    transform: scale(150%);
+  }
+}
+
+.grow2 { transition: all .2s ease-in-out; }
+.grow2:hover { transform: scale(1.3); }
