@@ -8,7 +8,7 @@ import {
   CdkDragStart,
   moveItemInArray
 } from "@angular/cdk/drag-drop";
-import {interval, Subscribable, Subscription} from "rxjs";
+import {fromEvent, interval, Observable, Subscription} from "rxjs";
 
 
 @Component({
@@ -31,7 +31,7 @@ export class CarComponent implements OnInit {
     0,
     0
   ];
-  @ViewChild('someInput') someInput!: ElementRef;
+
   @ViewChild('containerCenter') containerCenter!: ElementRef;
   condition: boolean[] = [
     false,
@@ -40,12 +40,19 @@ export class CarComponent implements OnInit {
     false,
     false,
   ];
-  private trackSlideClicks = 0;
+  public trackSlideClicks = 0;
   private waitMilliseconds: Subscription | undefined
-
+  resizeObservable$: Observable<Event> | undefined
+  resizeSubscription$: Subscription | undefined
+  private windowWidth:number | undefined;
   constructor(
     private element: ElementRef<any>
   ) {
+    this.resizeObservable$ = fromEvent(window, 'resize')
+    this.resizeSubscription$ = this.resizeObservable$.subscribe( evt => {
+      console.log('event: ', evt)
+      this.windowWidth = window.innerWidth;
+    })
   }
 
   ngOnInit(): void {
@@ -58,6 +65,7 @@ export class CarComponent implements OnInit {
       this.tmp[a] = blockLeftPosition;
       // console.log(this.tmp);
     }
+
 
   }
 
@@ -78,90 +86,33 @@ export class CarComponent implements OnInit {
     return {top: y, left: x};
   }
 
-  onDragMoved($event: CdkDragMove, i: number) {
-    //console.log($event);
-    // this.movement = ' ';
-    let element = $event.source.getRootElement();
-    let boundingClientRect = element.getBoundingClientRect();
-    let parentPosition = this.getPosition(element);
-    // console.log('x: ' + (boundingClientRect.x - parentPosition.left), 'y: ' + (boundingClientRect.y - parentPosition.top));
-
-    //let elm = this.element.nativeElement;
-    //let items = elm.getElementsByClassName('getit');
-
-
-    //this.tmp[0] = this.tmp[0]+( boundingClientRect.x / 100); //(boundingClientRect.x - parentPosition.left);
-    // this.tmp[1] = 200+ (boundingClientRect.x / 100);
-    //  this.tmp[1] = 320+ (boundingClientRect.x - parentPosition.left);
-    //console.log(this.tmp);
-
+  onDragMoved($event: CdkDragMove<Event>) {
     this.detectCollision();
-    /*
-    let elm = this.element.nativeElement;
-    let items = elm.getElementsByClassName('inside-wrapper');
-    let a = 0;
-    const screenWidth = window.innerWidth / 2;
-    for (a; a <= items.length - 1; a++) {
-      if (Math.round(items[a].getBoundingClientRect().left) >= (screenWidth - 130)
-        && Math.round(items[a].getBoundingClientRect().left) <= (screenWidth + 130)) {
-
-        console.log(items[a].getBoundingClientRect().left >= (screenWidth - 130));
-        this.condition[a] = true;
-      } else {
-        this.condition[a] = false;
-      }
-    }
-
-     */
-
-    /*
-        let ttt = this.someInput.nativeElement.getBoundingClientRect();
-        console.log(ttt.left);
-        const screenWidth = window.innerWidth / 2;
-        if (ttt.left >= (screenWidth - 250) && ttt.left <= (screenWidth + 250)) {
-          this.condition = true;
-        } else {
-          this.condition = false;
-        }
-
-     */
-    /*
-    if (this.tmp[0] >= 1) {
-      this.tmp[0] = ttt.left / 500;
-    } else {
-      this.tmp[0] = 1.1;
-    }*/
-    //  console.log(window.innerWidth / 200)
-    //this.anchorMouseOffset.left = ( $event.clientX - anchorRect.left );
-    // this.anchorMouseOffset.top = ( $event.clientY - anchorRect.top );
-
-    // console.log(this.someInput.nativeElement.offsetLeft)
-
-
   }
 
   onDragEntered($event: CdkDragEnter<any>) {
     console.log('cdk on enterered');
-
   }
 
   next() {
+    console.log('next')
     // Check if we can still go more towards the right
-    if (this.trackSlideClicks <= 3) {
+    //if (this.trackSlideClicks <= 3) {
       this.trackSlideClicks++;
       let elm = this.element.nativeElement;
       let items = elm.getElementsByClassName('inside-wrapper');
       let a = 0;
+      let scope = this;
       for (a; a <= items.length - 1; a++) {
-
-        this.translate3d[a] = this.translate3d[a] + (window.innerWidth / 5);
-
+        if (scope.windowWidth != undefined) {
+          this.translate3d[a] = this.translate3d[a] + (scope.windowWidth / 5);
+        }
       }
 
       this.waitMilliseconds = interval(50).subscribe((x =>{
         this.detectCollision();
       }));
-    }
+   // }
   }
 
 
@@ -173,15 +124,15 @@ export class CarComponent implements OnInit {
       let elm = this.element.nativeElement;
       let items = elm.getElementsByClassName('inside-wrapper');
       let a = 0;
-      for (a; a <= items.length - 1; a++) {
-        this.translate3d[a] = this.translate3d[a] - (window.innerWidth / 5);
-      }
-      //this.scaleMiddleSlide(items);
-
       let scope = this;
-      setTimeout(function () {
-        scope.detectCollision();
-      }, 20);
+      for (a; a <= items.length - 1; a++) {
+        if (scope.windowWidth != undefined) {
+          this.translate3d[a] = this.translate3d[a] - (scope.windowWidth / 5);
+        }
+      }
+      this.waitMilliseconds = interval(50).subscribe((x =>{
+        this.detectCollision();
+      }));
     }
   }
 
@@ -194,10 +145,8 @@ export class CarComponent implements OnInit {
 
         console.log('boundingClientRect.x');
         console.log(items[a].getBoundingClientRect().width);
-        if (Math.round(items[a].getBoundingClientRect().left) >= (screenWidth - 130)
-          && Math.round(items[a].getBoundingClientRect().left) <= (screenWidth + 130)) {
-
-          //console.log(items[a].getBoundingClientRect().left >= (screenWidth - 200));
+        if (Math.round(items[a].getBoundingClientRect().left) >= (screenWidth - 150)
+          && Math.round(items[a].getBoundingClientRect().left) <= (screenWidth + 150)) {
           this.condition[a] = true;
         } else {
           this.condition[a] = false;
@@ -223,27 +172,13 @@ export class CarComponent implements OnInit {
     }
   }
 
-  /*
-    collide(rectanlge1, rectangle2) {
-        let rect1 = rectanlge1.getBoundingClientRect();
-        let rect2 = rectangle2.getBoundingClientRect();
-
-        return !(
-          rect1.top > rect2.bottom ||
-          rect1.right < rect2.left ||
-          rect1.bottom < rect2.top ||
-          rect1.left > rect2.right
-        );
-
-    }
-  */
-  inside(rectangle1: { getBoundingClientRect: () => any; }, rectangle2: { getBoundingClientRect: () => any; }) {
+  public inside(rectangle1: { getBoundingClientRect: () => any; }, rectangle2: { getBoundingClientRect: () => any; }) {
     let rect1 = rectangle1.getBoundingClientRect();
     let rect2 = rectangle2.getBoundingClientRect();
     return rect1.top <= rect2.bottom && rect1.bottom >= rect2.top && rect1.left <= rect2.right && rect1.right >= rect2.left
   }
 
-  reset() {
+  public reset() {
     let elm = this.element.nativeElement;
     let items = elm.getElementsByClassName('inside-wrapper');
     let a = 0;
