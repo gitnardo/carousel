@@ -1,20 +1,19 @@
-
 .inside-wrapper {
-  margin:20px;
-  padding:2em;
+  margin: 0;
+  padding: 1em;
   height: calc(100vw / 4.5);
-  width:85%;
+  width: 85%;
 
-
-  /* Permalink - use to edit and share this gradient: https://colorzilla.com/gradient-editor/#ffffff+0,e3e3e3+51,ffffff+100 */
-  background: #F1F1F1; /* Old browsers */
+  background: #f1f1f1; /* Old browsers */
   box-shadow: rgba(0, 0, 0, 0.35) 0 5px 15px;
 }
+
 
 
 .zindex-adjust-back {
   z-index:1;
   transition: all .2s ease-in-out;
+  transform: translate3d(0px,0px,0px);
 }
 
 .box {

@@ -14,9 +14,7 @@
     >
       <div
         class="inside-wrapper"
-        [style.left]="'left:' + tmp[0] + 'px'"
-        [ngClass]="{ box: condition[0], boxreset: !condition[0] }"
-      >
+        [ngClass]="{ box: condition[0], boxreset: !condition[0] }"      >
         <app-card-detail
           cardTitle="Mobile Internet"
           [showCalltoAction]="condition[0]"

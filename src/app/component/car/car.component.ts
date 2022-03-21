@@ -17,13 +17,6 @@ import {fromEvent, interval, Observable, Subscription} from "rxjs";
   styleUrls: ['./car.component.css']
 })
 export class CarComponent implements OnInit {
-  public tmp: number[] = [
-    0,
-    0,
-    0,
-    0,
-    0
-  ];
   public translate3d: number[] = [
     0,
     0,
@@ -51,7 +44,8 @@ export class CarComponent implements OnInit {
   ) {
     this.resizeObservable$ = fromEvent(window, 'resize')
     this.resizeSubscription$ = this.resizeObservable$.subscribe( evt => {
-      console.log('event: ', evt)
+      // console.log('event: ', evt)
+      // Track the window width when a window resize happens for example landscape and portrait switching.
       this.windowWidth = window.innerWidth;
 
       // If the window size reset view otherwise the view gets of out of hand
@@ -64,8 +58,7 @@ export class CarComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    let elm = this.element.nativeElement;
-    let items = elm.getElementsByClassName('inside-wrapper');
+    // Set the box width from the start. To be used by die next and prev buttons
     this.calcBoxWidth();
   }
 
@@ -74,7 +67,6 @@ export class CarComponent implements OnInit {
   */
   private calcBoxWidth() {
     let elm = this.element.nativeElement;
-    //let items = elm.getElementsByClassName('inside-wrapper');
     let itemRow = elm.getElementsByClassName('col-sm-2 ');
     this.boxWidth = itemRow[0].offsetWidth;
 
@@ -83,6 +75,7 @@ export class CarComponent implements OnInit {
   ngAfterViewInit() {
     // make sure all elements are on the page before doing collision detection
     this.detectCollision();
+
   }
 
 
@@ -102,7 +95,6 @@ export class CarComponent implements OnInit {
   }
 
   onDragEntered($event: CdkDragEnter<any>) {
-    console.log('cdk on enterered');
   }
 
   public next() {
@@ -112,9 +104,12 @@ export class CarComponent implements OnInit {
       let elm = this.element.nativeElement;
       let items = elm.getElementsByClassName('inside-wrapper');
       let a = 0;
-      let scope = this;
+      // let scope = this;
       for (a; a <= items.length - 1; a++) {
-        if (scope.windowWidth != undefined && this.boxWidth !== undefined) {
+
+        items[a].parentElement.parentElement.style.transform = 0;
+        console.log(items[a].parentElement.parentElement.style);
+        if (this.boxWidth !== undefined) {
           this.translate3d[a] = this.translate3d[a] + (this.boxWidth);
         }
       }
@@ -134,9 +129,9 @@ export class CarComponent implements OnInit {
       let elm = this.element.nativeElement;
       let items = elm.getElementsByClassName('inside-wrapper');
       let a = 0;
-      let scope = this;
+     // let scope = this;
       for (a; a <= items.length - 1; a++) {
-        if (scope.windowWidth != undefined && this.boxWidth !== undefined) {
+        if (this.boxWidth !== undefined) {
           this.translate3d[a] = this.translate3d[a] - (this.boxWidth);
         }
       }
