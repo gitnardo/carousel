@@ -1,20 +1,36 @@
-<div class="p-lg-5 p-sm-2 m-5 border crossed justify-content-center w-auto ">
+<div id="outer">
+  <div id="inner">
+    <div class="text-center m-sm-1 placeholder-block position-relative bb">
+      <div class="massive-font">X</div>
+    </div>
+  </div>
 </div>
 
-<div class="  text-center justify-content-center h4 m-4 bold">
-  {{cardTitle}}
+<div class="text-center justify-content-center m-sm-2 bold h5 py-3">
+  {{ cardTitle }}
 </div>
 
-<div class="pt-5 mt-5  text-center  h6 text-uppercase ">
-
-  <div class="  bottom-0 justify-content-center text-left w-auto">
-    <a href="#" *ngIf="showCalltoAction"
-       class=" text-left position-absolute bottom-0 p-2 setup-action-position  ">
-        Start here
-      <img style="height: 12px; "
-           class="text-left position-absolute ms-3 mt-1"
-           src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyNCIgaGVpZ2h0PSIyNCIgdmlld0JveD0iMCAwIDI0IDI0Ij48cGF0aCBkPSJNOC4xMjIgMjRsLTQuMTIyLTQgOC04LTgtOCA0LjEyMi00IDExLjg3OCAxMnoiLz48L3N2Zz4="
-           alt="call to action arrow">
+<div class="pt-5 mt-5 text-center text-uppercase">
+  <div class="bottom-0 justify-content-center text-left w-auto">
+    <a
+      href="#"
+      *ngIf="showCalltoAction"
+      class="
+        text-left
+        position-absolute
+        bottom-0
+        p-2
+        setup-action-position
+        text-small
+      "
+    >
+      Start here
+      <img
+        style="height: 12px; "
+        class="text-left position-absolute ms-2 mt-1"
+        src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyNCIgaGVpZ2h0PSIyNCIgdmlld0JveD0iMCAwIDI0IDI0Ij48cGF0aCBkPSJNOC4xMjIgMjRsLTQuMTIyLTQgOC04LTgtOCA0LjEyMi00IDExLjg3OCAxMnoiLz48L3N2Zz4="
+        alt="call to action arrow"
+      />
     </a>
   </div>
 </div>

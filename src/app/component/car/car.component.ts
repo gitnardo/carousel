@@ -45,6 +45,7 @@ export class CarComponent implements OnInit {
   resizeObservable$: Observable<Event> | undefined
   resizeSubscription$: Subscription | undefined
   private windowWidth:number | undefined;
+  private boxWidth:number | undefined;
   constructor(
     private element: ElementRef<any>
   ) {
@@ -52,20 +53,30 @@ export class CarComponent implements OnInit {
     this.resizeSubscription$ = this.resizeObservable$.subscribe( evt => {
       console.log('event: ', evt)
       this.windowWidth = window.innerWidth;
+
+      // If the window size reset view otherwise the view gets of out of hand
+      this.reset();
+
+      // If the window size changes recalculate the boxes width
+      this.calcBoxWidth();
+
     })
   }
 
   ngOnInit(): void {
     let elm = this.element.nativeElement;
     let items = elm.getElementsByClassName('inside-wrapper');
-    let a = 0;
-    for (a; a <= items.length - 1; a++) {
-      let blockLeftPosition = Math.round(items[a].getBoundingClientRect().left);
-      console.log(items[a].getBoundingClientRect());
-      this.tmp[a] = blockLeftPosition;
-      // console.log(this.tmp);
-    }
+    this.calcBoxWidth();
+  }
 
+  /*
+   * This function calculate the box width from the first to last box
+  */
+  private calcBoxWidth() {
+    let elm = this.element.nativeElement;
+    //let items = elm.getElementsByClassName('inside-wrapper');
+    let itemRow = elm.getElementsByClassName('col-sm-2 ');
+    this.boxWidth = itemRow[0].offsetWidth;
 
   }
 
@@ -94,8 +105,7 @@ export class CarComponent implements OnInit {
     console.log('cdk on enterered');
   }
 
-  next() {
-    console.log('next')
+  public next() {
     // Check if we can still go more towards the right
     //if (this.trackSlideClicks <= 3) {
       this.trackSlideClicks++;
@@ -104,8 +114,8 @@ export class CarComponent implements OnInit {
       let a = 0;
       let scope = this;
       for (a; a <= items.length - 1; a++) {
-        if (scope.windowWidth != undefined) {
-          this.translate3d[a] = this.translate3d[a] + (scope.windowWidth / 5);
+        if (scope.windowWidth != undefined && this.boxWidth !== undefined) {
+          this.translate3d[a] = this.translate3d[a] + (this.boxWidth);
         }
       }
 
@@ -117,7 +127,7 @@ export class CarComponent implements OnInit {
 
 
 
-  prev() {
+  public prev() {
     // Check if we can still go more towards the left
     if (this.trackSlideClicks >= -3) {
       this.trackSlideClicks--;
@@ -126,8 +136,8 @@ export class CarComponent implements OnInit {
       let a = 0;
       let scope = this;
       for (a; a <= items.length - 1; a++) {
-        if (scope.windowWidth != undefined) {
-          this.translate3d[a] = this.translate3d[a] - (scope.windowWidth / 5);
+        if (scope.windowWidth != undefined && this.boxWidth !== undefined) {
+          this.translate3d[a] = this.translate3d[a] - (this.boxWidth);
         }
       }
       this.waitMilliseconds = interval(50).subscribe((x =>{
